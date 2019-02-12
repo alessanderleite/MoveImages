@@ -73,4 +73,15 @@ public class MainActivity extends AppCompatActivity {
         }, 0, 20);
 
     }
+
+    public void changePos() {
+        //Up
+        arrowUpY -= 10;
+        if (arrowUp.getY() + arrowUp.getHeight() < 0) {
+            arrowUpX = (float)Math.floor(Math.random() * (screenWidth - arrowUp.getWidth()));
+            arrowUpY = screenHeight + 100.0f;
+        }
+        arrowUp.setX(arrowUpX);
+        arrowUp.setY(arrowUpY);
+    }
 }
