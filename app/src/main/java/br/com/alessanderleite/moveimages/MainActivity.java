@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
         //Move to out of screen.
         arrowUp.setX(-80.0f);
         arrowUp.setY(-80.0f);
+        arrowDown.setX(-80.0f);
+        arrowDown.setY(screenHeight + 80.0f);
 
         //Start the timer.
         timer.schedule(new TimerTask() {
@@ -83,5 +85,14 @@ public class MainActivity extends AppCompatActivity {
         }
         arrowUp.setX(arrowUpX);
         arrowUp.setY(arrowUpY);
+
+        //Down
+        arrowDownY +=10;
+        if (arrowDown.getY() > screenHeight) {
+            arrowDownX = (float)Math.floor(Math.random() * (screenWidth - arrowDown.getWidth()));
+            arrowDownY = -100.0f;
+        }
+        arrowDown.setX(arrowDownX);
+        arrowDown.setY(arrowDownY);
     }
 }
