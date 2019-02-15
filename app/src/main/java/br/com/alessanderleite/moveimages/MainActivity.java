@@ -5,7 +5,9 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import java.util.Timer;
@@ -23,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
     private ImageView arrowRight;
     private ImageView arrowLeft;
 
+    //Button
+    private Button pauseBtn;
+
     //Position
     private float arrowUpX;
     private float arrowUpY;
@@ -37,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
     private Handler handler = new Handler();
     private Timer timer = new Timer();
 
+    //Status Check
+    private boolean pause_flg = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
         arrowDown = (ImageView) findViewById(R.id.arrowDown);
         arrowRight = (ImageView) findViewById(R.id.arrowRight);
         arrowLeft = (ImageView) findViewById(R.id.arrowLeft);
+
+        pauseBtn = (Button) findViewById(R.id.pauseBtn);
 
         //Get Screen Size.
         WindowManager windowManager = getWindowManager();
@@ -116,5 +126,41 @@ public class MainActivity extends AppCompatActivity {
         }
         arrowLeft.setX(arrowLeftX);
         arrowLeft.setY(arrowLeftY);
+    }
+
+    public void pausePushed(View view) {
+
+        if (pause_flg == false) {
+
+            pause_flg = true;
+
+            //Stop the timer
+            timer.cancel();
+            timer = null;
+
+            //Change Button Text
+            pauseBtn.setText("START");
+
+        } else {
+
+            pause_flg = false;
+
+            //Change Button Text
+            pauseBtn.setText("PAUSE");
+
+            //Create and Start the timer
+            timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            changePos();
+                        }
+                    });
+                }
+            }, 0, 20);
+        }
     }
 }
